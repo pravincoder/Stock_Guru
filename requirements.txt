@@ -1,0 +1,9 @@
+#python==3.11
+crewai==0.55
+django
+langchain_groq
+yfinance
+python-dotenv
+crewai[tools]
+matplotlib
+snowflake-connector-python

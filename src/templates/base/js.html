@@ -1,0 +1,58 @@
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleLink = document.getElementById("toggle-link");
+        const qrImage = document.getElementById("qr-image");
+        const paymentId = document.getElementById("payment-id");
+        const paymentButton = document.getElementById("payment-button");
+        const loadingContainer = document.getElementById("loading-container");
+
+        let isUpi = true;
+
+        function switchToPayPal() {
+            loadingContainer.style.display = "block";
+            qrImage.style.display = "none";
+
+            qrImage.onload = function () {
+                loadingContainer.style.display = "none";
+                qrImage.style.display = "block";
+            };
+
+            qrImage.src = "assets/paypal_qr.png";
+            paymentId.textContent = "Pravinmaurya1";
+            paymentButton.textContent = "Open PayPal";
+            paymentButton.onclick = () => window.open("https://www.paypal.com/paypalme/pravinmaurya1", "_blank");
+            toggleLink.textContent = "Donate via UPI? Click Here";
+        }
+
+        function switchToUpi() {
+            qrImage.src = "../../static/gpay.jpeg";
+            paymentId.textContent = "iampravinmaurya@okaxis";
+            paymentButton.textContent = "Copy";
+            paymentButton.onclick = copyToClipboard;
+            toggleLink.textContent = "Donate via PayPal? Click Here";
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(paymentId.textContent).then(() => {
+                paymentButton.textContent = "Copied!";
+                setTimeout(() => paymentButton.textContent = "Copy", 2500);
+            });
+        }
+
+        toggleLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            isUpi ? switchToPayPal() : switchToUpi();
+            isUpi = !isUpi;
+        });
+
+        paymentButton.onclick = copyToClipboard;
+    });
+</script>

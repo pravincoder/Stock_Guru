@@ -1,0 +1,75 @@
+{% include 'base/css.html' %}
+{% include 'base/js.html' %}
+{% load static %}
+{% block navbar %}
+<nav class="bg-gray-900 shadow-lg">
+    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+        
+        <!-- Logo Image -->
+        <img src="{% static 'logo.png' %}" class="h-20 w-auto mr-3" alt="StockGuru AI Logo">
+        <a href="{% url 'home' %}" class="text-3xl font-extrabold text-indigo-400 hover:text-indigo-500 transition-all ease-in-out duration-300">
+            StockGuru AI
+        </a>
+    
+        <!-- Mobile Menu Button -->
+        <button id="menu-toggle" class="lg:hidden text-white focus:outline-none hover:text-indigo-400 transition-all">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+
+        <!-- Desktop Navigation Links -->
+        <div id="menu" class="hidden lg:flex space-x-8">
+            <a href="{% url 'home' %}" class="text-white hover:text-indigo-400 transition-all ease-in-out duration-300">Home</a>
+            <a href="{% url 'home' %}" class="text-white hover:text-indigo-400 transition-all ease-in-out duration-300">About Us</a>
+            <a href="{% url 'stock_analysis' %}" class="text-white hover:text-indigo-400 transition-all ease-in-out duration-300">Analyze Report</a>
+            <a href="{% url 'stock_investment' %}" class="text-white hover:text-indigo-400 transition-all ease-in-out duration-300">Investment Report</a>
+
+            {% if user.is_authenticated %}
+                <!-- Profile Icon with Dropdown -->
+                <div class="relative">
+                    <button id="profile-btn" class="flex items-center text-white hover:text-indigo-400 transition-all ease-in-out duration-300">
+                        <img src="{% static 'profile_icon.png' %}" class="w-8 h-8 rounded-full mr-2" alt="Profile" />
+                        <span class="hidden lg:block">{{ user.username }}</span>
+                    </button>
+                    <div id="profile-menu" class="absolute right-0 mt-2 w-48 bg-white text-gray-700 shadow-lg rounded-lg hidden">
+                        <a href="{% url 'account_profile' %}" class="block px-4 py-2 hover:bg-indigo-100 transition-all ease-in-out duration-300">My Profile</a>
+                        <a href="{% url 'account_logout' %}" class="block px-4 py-2 text-red-500 hover:bg-indigo-100 transition-all ease-in-out duration-300">Logout</a>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'account_login' %}" class="text-white hover:text-green-400 transition-all ease-in-out duration-300">Login</a>
+                <a href="{% url 'account_signup' %}" class="text-white hover:text-blue-400 transition-all ease-in-out duration-300">Register</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-gray-800 p-4 space-y-3">
+        <a href="{% url 'home' %}" class="block text-white hover:text-indigo-400 transition-all ease-in-out duration-300">Home</a>
+        <a href="{% url 'stock_analysis' %}" class="block text-white hover:text-indigo-400 transition-all ease-in-out duration-300">Analyze Report</a>
+        <a href="{% url 'stock_investment' %}" class="block text-white hover:text-indigo-400 transition-all ease-in-out duration-300">Investment Report</a>
+        
+        {% if user.is_authenticated %}
+            <a href="{% url 'account_logout' %}" class="block text-white hover:text-red-400 transition-all ease-in-out duration-300">Logout</a>
+        {% else %}
+            <a href="{% url 'account_login' %}" class="block text-white hover:text-green-400 transition-all ease-in-out duration-300">Login</a>
+            <a href="{% url 'account_signup' %}" class="block text-white hover:text-blue-400 transition-all ease-in-out duration-300">Register</a>
+        {% endif %}
+    </div>
+</nav>
+
+<script>
+    document.getElementById('profile-btn').addEventListener('click', function(event) {
+        event.stopPropagation();
+        document.getElementById('profile-menu').classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function(event) {
+        var profileMenu = document.getElementById('profile-menu');
+        if (!profileMenu.contains(event.target) && event.target !== document.getElementById('profile-btn')) {
+            profileMenu.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock navbar %}

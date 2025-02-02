@@ -1,0 +1,104 @@
+{% include 'base/meta.html' %}
+{% include 'navbar.html' %}
+
+{% block content %}
+{% load static %}
+
+<!-- Welcome Section with Background Image -->
+<section class="bg-center bg-no-repeat bg-cover bg-[url('{% static 'image.png' %}')] bg-gray-700 bg-blend-multiply">
+    <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
+        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Welcome to StockGuru AI</h1>
+        <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Invest smarter, analyze better with the power of AI.</p>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="container mx-auto py-16 text-center">
+    <h2 class="text-4xl font-bold text-blue-900 mb-8">AI-Powered Features</h2>
+    <p class="text-gray-700 max-w-3xl mx-auto mb-8">StockGuru AI offers a full spectrum of intelligent features to enhance your trading and investment decisions.</p>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all ease-in-out duration-300">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-chart-line text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-blue-900 mb-2">Real-Time Market Data</h3>
+            <p class="text-gray-600">Stay updated with the latest market trends and AI-powered insights.</p>
+        </div>
+        <div class="p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all ease-in-out duration-300">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-robot text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-blue-900 mb-2">Automated Analysis</h3>
+            <p class="text-gray-600">Let AI analyze stocks for you, providing deeper insights and predictions.</p>
+        </div>
+        <div class="p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all ease-in-out duration-300">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-lock text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-blue-900 mb-2">Advanced Security</h3>
+            <p class="text-gray-600">Trade with confidence using our robust security and encryption systems.</p>
+        </div>
+        <div class="p-8 bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all ease-in-out duration-300">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-lightbulb text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-blue-900 mb-2">Smart Investment Strategies</h3>
+            <p class="text-gray-600">Leverage AI-powered recommendations for smarter investing.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Our Commitment Section -->
+<section class="bg-gradient-to-r from-blue-100 via-gray-100 to-blue-100 py-16 text-center">
+    <h2 class="text-4xl font-bold text-blue-900 mb-12">Our Commitment to Your Growth</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 px-8">
+        <p class="text-lg font-medium text-gray-700 transform hover:translate-x-4 transition-all duration-300 flex items-center justify-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl">
+            <i class="fas fa-check-circle text-blue-600 mr-3 text-2xl"></i> Building a Smarter Trading Future
+        </p>
+        <p class="text-lg font-medium text-gray-700 transform hover:translate-x-4 transition-all duration-300 flex items-center justify-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl">
+            <i class="fas fa-check-circle text-blue-600 mr-3 text-2xl"></i> Providing an AI-Enhanced Trading Experience
+        </p>
+        <p class="text-lg font-medium text-gray-700 transform hover:translate-x-4 transition-all duration-300 flex items-center justify-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl">
+            <i class="fas fa-check-circle text-blue-600 mr-3 text-2xl"></i> The Experts Behind Your Investment Success
+        </p>
+        <p class="text-lg font-medium text-gray-700 transform hover:translate-x-4 transition-all duration-300 flex items-center justify-center p-4 bg-white rounded-lg shadow-lg hover:shadow-xl">
+            <i class="fas fa-check-circle text-blue-600 mr-3 text-2xl"></i> Empowering Traders with Cutting-Edge AI
+        </p>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="container mx-auto py-12">
+    <h2 class="text-4xl font-bold text-center text-blue-900 mb-6">Our AI-Powered Tools</h2>
+
+    <div class="grid md:grid-cols-2 gap-6 px-6">
+        <!-- Stock Analysis Card -->
+        <a href="{% url 'stock_analysis' %}" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-blue-100 text-blue-600 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                    <i class="fas fa-chart-line text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-blue-900 dark:text-white">Stock Analysis</h3>
+                    <p class="text-gray-700 dark:text-gray-400">Get real-time insights, trend analysis, and AI-powered stock predictions.</p>
+                </div>
+            </div>
+        </a>
+
+        <!-- Investment Insights Card -->
+        <a href="{% url 'stock_investment' %}" class="block p-6 bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-green-100 text-green-600 rounded-full dark:bg-green-900 dark:text-green-300">
+                    <i class="fas fa-dollar-sign text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-green-900 dark:text-white">Investment Insights</h3>
+                    <p class="text-gray-700 dark:text-gray-400">Discover AI-generated investment strategies tailored for your needs.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</section>
+
+{% include 'footer.html' %}
+{% endblock %}
