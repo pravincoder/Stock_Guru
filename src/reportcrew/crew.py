@@ -63,8 +63,7 @@ def generate_analysis_reports(stock_symbol):
             agents=[stock_analysis],
             tasks=[stock_analysis_task],
             verbose=True,
-            max_rpm=29,
-
+            max_rpm=19,
         )
         result_stock_analysis = stock_analysis_crew.kickoff()
 
@@ -96,7 +95,7 @@ def generate_investment_reports(stock_symbol):
             agents=[investment_analysis],
             tasks=[investment_analysis_task],
             verbose=True,
-            max_rpm=29,
+            max_rpm=19,
         )
 
         result_investment_analysis = investment_analysis_crew.kickoff()

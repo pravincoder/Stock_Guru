@@ -3,26 +3,13 @@ import yfinance as yf
 from crewai_tools import tool
 
 
-def value_to_crores(value: int) -> float:
-    """Convert a value to crores.
-    Args:
-        value (int): The value to convert.
-    Returns:
-        float: The value converted to crores.
-    """
-    return round(value / 10 ** 7, 2)
-
-
 class YFinanceTools:
     """A collection of tools for fetching financial data using the Yahoo Finance API."""
-
     @tool
     def get_company_info(symbol: str) -> str:
         """Use this function to get company information and overview for a given stock symbol.
-
         Args:
             symbol (str): The stock symbol.
-
         Returns:
             json: JSON containing company profile and overview.
         """
@@ -35,7 +22,7 @@ class YFinanceTools:
                 "Name": company_info_full.get("shortName"),
                 "Symbol": company_info_full.get("symbol"),
                 "Current Stock Price": company_info_full.get('regularMarketPrice', company_info_full.get('currentPrice')),
-                "Market Cap": str(f"{value_to_crores(company_info_full.get('marketCap'))}+Crs"),
+                "Market Cap": company_info_full.get('marketCap'),
                 "Sector": company_info_full.get("sector"),
                 "Industry": company_info_full.get("industry"),
                 "Address": company_info_full.get("address1"),
@@ -73,7 +60,6 @@ class YFinanceTools:
         symbol: str
     ) -> str:
         """Use this function to get the historical stock price for a given symbol.
-
         Args:
             symbol (str): 
                 The stock symbol.
@@ -90,25 +76,10 @@ class YFinanceTools:
     @tool
     def get_stock_fundamentals(symbol: str) -> str:
         """Use this function to get fundamental data for a given stock symbol yfinance API.
-
         Args:
             symbol (str): The stock symbol.
-
         Returns:
             json: A JSON string containing fundamental data or an error message.
-                Keys:
-                    - 'symbol': The stock symbol.
-                    - 'company_name': The long name of the company.
-                    - 'sector': The sector to which the company belongs.
-                    - 'industry': The industry to which the company belongs.
-                    - 'market_cap': The market capitalization of the company.
-                    - 'pe_ratio': The forward price-to-earnings ratio.
-                    - 'pb_ratio': The price-to-book ratio.
-                    - 'dividend_yield': The dividend yield.
-                    - 'eps': The trailing earnings per share.
-                    - 'beta': The beta value of the stock.
-                    - '52_week_high': The 52-week high price of the stock.
-                    - '52_week_low': The 52-week low price of the stock.
         """
         try:
             stock = yf.Ticker(symbol)
@@ -149,12 +120,10 @@ class YFinanceTools:
     @tool
     def get_analyst_recommendations(symbol: str) -> str:
         """Use this function to get analyst recommendations for a given stock symbol.
-
         Args:
-        symbol (str): The stock symbol.
-
+            symbol (str): The stock symbol.
         Returns:
-        json: JSON containing analyst recommendations.
+            json: JSON containing analyst recommendations.
         """
         try:
             stock = yf.Ticker(symbol)
@@ -166,27 +135,21 @@ class YFinanceTools:
     @tool
     def get_company_news(symbol: str) -> str:
         """Use this function to get company news and press releases for a given stock symbol.
-
         Args:
             symbol (str): The stock symbol.
         Returns:
-            json: JSON containing company news and press releases.
+            List[dict]: A list of dictionaries containing news articles.
         """
         try:
-            news_data = yf.Ticker(symbol).news
-            top_news = news_data[:3]
-            return json.dumps(top_news, indent=2)
+            return yf.Search(symbol,news_count=4).news
         except Exception as e:
             return f"Error fetching company news for {symbol}: {e}"
 
     @tool
     def get_technical_indicators(symbol: str) -> str:
         """Use this function to get technical indicators for a given stock symbol.
-
         Args:
             symbol (str): The stock symbol.
-            
-
         Returns:
             json: JSON containing technical indicators.
         """
@@ -198,8 +161,8 @@ class YFinanceTools:
 
     def tools():
         return [
-            YFinanceTools().get_company_info,
-            #YFinanceTools().get_historical_stock_prices,
+            #YFinanceTools().get_company_info,
+            YFinanceTools().get_historical_stock_prices,
             YFinanceTools().get_stock_fundamentals,
             #YFinanceTools().get_income_statements,
             YFinanceTools().get_analyst_recommendations,

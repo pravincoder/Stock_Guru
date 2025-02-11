@@ -20,11 +20,12 @@ from django.urls import path,include
 from StockAnalysis.views import analyze_stock
 from StockInvestment.views import invest_in_stock
 
-from .views import home,profile
+from .views import home,profile,about_us
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("",home,name="home"),
-    path("profile",profile,name="account_profile"),
+    path("profile/",profile,name="account_profile"),
+    path("about-us/",about_us,name="about_us"),
     path('accounts/', include('allauth.urls')),
     path("analyze-stock/", analyze_stock, name="stock_analysis"),
     path("invest-stock/", invest_in_stock, name="stock_investment"),

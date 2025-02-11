@@ -1,12 +1,12 @@
+from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from textwrap import dedent
 import os
 from crewai import Agent
 from reportcrew.tools import YFinanceTools
 from dotenv import load_dotenv
 load_dotenv()
-from langchain_groq import ChatGroq
 
-from langchain_openai import ChatOpenAI
 """
 llm = ChatOpenAI(
     base_url='http://localhost:11434/v1',
@@ -19,15 +19,17 @@ llm = ChatOpenAI(
     model='gpt-3.5-turbo',
     api_key=os.getenv('OPENAI_API_KEY')
 ) #(If you are using ChatGPT) 
-""" 
+"""
 
 llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
-    api_key=os.environ['GROQ_API_KEY'],  # Add Your API Key from (https://console.groq.com/keys)
+    model="llama-3.1-8b-instant",
+    # Add Your API Key from (https://console.groq.com/keys)
+    api_key=os.environ['GROQ_API_KEY'],
 )
 
+
 class Stock_bot_agents:
-    def stock_analysis(self,stock_symbol):
+    def stock_analysis(self, stock_symbol):
         """Agent for Stock Analysis"""
         return Agent(
             role="Stock Analysis",
@@ -43,11 +45,13 @@ class Stock_bot_agents:
             ),
             verbose=True,
             llm=llm,
-            max_rpm=29,
-            max_retry_limit = 1,
+            max_rpm=19,
+            max_retry_limit=2,
+            allow_delegation=True,
+            max_execution_time=180,
         )
 
-    def investment_analysis(self,stock_symbol):
+    def investment_analysis(self, stock_symbol):
         """Agent for Investment Analysis"""
         return Agent(
             role="Stock Report",
@@ -64,6 +68,8 @@ class Stock_bot_agents:
             ),
             verbose=True,
             llm=llm,
-            max_rpm=29,
-            max_retry_limit = 1,
+            max_rpm=19,
+            max_retry_limit=1,
+            allow_delegation=True,
+            max_execution_time=180,
         )

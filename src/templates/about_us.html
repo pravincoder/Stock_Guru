@@ -1,0 +1,49 @@
+{% include 'base/meta.html' %}
+{% include 'navbar.html' %}
+{% load static %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Header Section with Animation -->
+    <header class="text-center mb-12">
+        <h1 class="text-5xl font-extrabold text-gray-900 animate-fadeInUp">About Us</h1>
+        <p class="text-lg text-gray-600 mt-3">Learn more about who we are and our mission.</p>
+    </header>
+
+    <!-- Company Section with Image -->
+    <section class="flex flex-col md:flex-row items-center justify-center gap-8 text-center md:text-left">
+        <div class="w-full md:w-1/2 animate-slideInLeft">
+            <img src="{% static 'search.png' %}" alt="Company Image" class="rounded-xl shadow-lg w-full">
+        </div>
+        <div class="w-full md:w-1/2">
+            <h2 class="text-3xl font-semibold text-gray-900">Company</h2>
+            <p class="mt-4 text-gray-700 leading-relaxed">
+                This AI-powered stock analysis system offers real-time insights by integrating multiple specialized agents 
+                for technical, fundamental, sentiment, and predictive analytics. Using advanced machine learning and natural 
+                language processing, it delivers comprehensive, actionable insights for investors. With the rise in individual 
+                investors buying stocks via smartphones, this system is especially valuable for both beginners and seasoned 
+                traders, bridging the knowledge gap and enhancing investment decisions.
+            </p>
+        </div>
+    </section>
+
+    <!-- Meet Our Team Section -->
+    <section class="mt-16">
+        <h2 class="text-3xl font-semibold text-center text-gray-900 animate-fadeInUp">Meet Our Team</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+            <!-- Team Member Cards -->
+            {% for member in team_members %}
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center transform hover:scale-105 transition duration-300 animate-fadeIn">
+                <img src="{% static 'profile_icon.png'%}" alt="{{ member.name }}" 
+                     class="w-32 h-32 mx-auto rounded-full shadow-md">
+                <h3 class="text-xl font-semibold mt-4">{{ member.name }}</h3>
+                <p class="text-gray-600">{{ member.specialization }}</p>
+                <p class="text-gray-700 mt-2">{{ member.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+{% include 'footer.html' %}
+
+{% endblock %}
