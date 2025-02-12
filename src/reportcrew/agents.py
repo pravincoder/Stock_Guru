@@ -22,7 +22,7 @@ llm = ChatOpenAI(
 """
 
 llm = ChatGroq(
-    model="llama-3.1-8b-instant",
+    model="llama-3.3-70b-versatile",
     # Add Your API Key from (https://console.groq.com/keys)
     api_key=os.environ['GROQ_API_KEY'],
 )

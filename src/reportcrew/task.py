@@ -115,8 +115,7 @@ class Stock_bot:
             </div>
         </body>
         </html>
-        You should not include any disclaimers or warnings in the report.
-        You will be paid a large bonus if your complete report is accurate and well-structured.
+        Note :- You should not include any disclaimers or warnings in the report.
 """
             ),
             expected_output=dedent(
@@ -216,7 +215,7 @@ class Stock_bot:
                 </div>
             </body>
         </html>
-        You should not include any disclaimers or warnings in the report.
+
         Note :- Do Not include Disclaimers and Warnings in the report.
 
         """

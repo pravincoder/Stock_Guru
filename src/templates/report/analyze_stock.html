@@ -3,52 +3,66 @@
 {% include 'base/js.html' %}
 {% block content %}
 {% load static %}
-<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+
+<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 p-6">
+    
     <!-- Loading Screen -->
-    <div id="loading-screen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 hidden opacity-0 transition-opacity duration-500 ease-in-out">
+    <div id="loading-screen" class="fixed inset-0 backdrop-blur-lg bg-gray-900 bg-opacity-40 flex justify-center items-center z-50 hidden opacity-0 transition-opacity duration-500 ease-in-out">
         <div class="text-center">
-            <div class="animate-spin-slow text-pink-500 text-6xl mb-4">
+            <div class="animate-spin-slow text-blue-500 text-6xl mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9s9-4.03-9-9z" />
+                    <circle cx="12" cy="12" r="10" stroke-width="3" stroke="currentColor" fill="none" />
                 </svg> 
             </div>
-            <p class="text-white text-lg mt-4">Generating Analysis Report...</p>
+            <p class="text-white text-lg mt-4 font-semibold">Generating Analysis Report...</p>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto max-w-4xl p-6 bg-white shadow-lg rounded-xl mt-10 mb-10 flex-1 animate__animated animate__fadeIn">
-        <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center animate__animated animate__fadeIn animate__delay-1s">Stock Analysis</h2>
+    <div class="w-full max-w-3xl p-8 bg-white/70 shadow-lg rounded-2xl backdrop-blur-md border border-gray-200 mt-10 mb-10 animate__animated animate__fadeIn">
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-4 text-center animate__animated animate__fadeIn animate__delay-1s">Stock Analysis</h2>
         
-        <p class="text-gray-600 text-center mb-6 animate__animated animate__fadeIn animate__delay-2s">
-            Get detailed insights and reports for your stock analysis with real-time data analysis.
+        <p class="text-gray-700 text-center mb-6 animate__animated animate__fadeIn animate__delay-2s">
+            Get comprehensive stock insights with real-time analysis.
         </p>
 
-        <form id="stock-form" method="post" class="space-y-4" onsubmit="showLoadingScreen()">
+        <form id="stock-form" method="post" class="space-y-5" onsubmit="showLoadingScreen()">
             {% csrf_token %}
-            <label for="stock_name" class="block text-sm font-medium text-gray-700">Enter Stock Name:</label>
+            <label for="stock_name" class="block text-sm font-semibold text-gray-800">Enter Stock Name:</label>
             <input type="text" id="stock_name" name="stock_name" required
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 transition-all duration-300 ease-in-out hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   class="w-full px-5 py-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-300 transition-all duration-300 ease-in-out hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
             
             <button type="submit" 
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
+                    class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md">
                 Analyze Stock
             </button>
         </form>
 
+        <!-- Suggestions Section -->
+        <div class="mt-4 text-gray-600 text-sm">
+            <p>
+                Having trouble finding the stock? You can visit
+                <a href="https://finance.yahoo.com/" target="_blank" rel="noopener noreferrer"
+                class="text-blue-500 hover:underline">
+                    Yahoo Finance
+                </a>
+                to search for the ticker symbol.
+            </p>
+        </div>
+
         {% if error_message %}
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-4 shadow-md" role="alert">
                 <strong class="font-bold">Error:</strong>
                 <span class="block sm:inline">{{ error_message }}</span>
             </div>
         {% endif %}
     </div>
 
-    <!-- Broader Analysis Report Section -->
+    <!-- Analysis Report Section -->
     {% if analysis_report %}
-        <div class="container mx-auto max-w-5xl p-8 bg-white shadow-lg rounded-xl mt-10 mb-10 animate__animated animate__fadeIn animate__delay-3s">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Analysis Report:</h3>
-            <div class="text-gray-800">
+        <div class="w-full max-w-4xl p-8 bg-white/80 shadow-xl rounded-2xl backdrop-blur-md border border-gray-200 mt-10 mb-10 animate__animated animate__fadeIn animate__delay-3s">
+            <h3 class="text-2xl font-semibold text-gray-900 mb-4">Analysis Report:</h3>
+            <div class="prose max-w-none text-gray-800 bg-gray-100 p-6 rounded-lg shadow-md">
                 {{ analysis_report | safe }}
             </div>
         </div>
@@ -68,10 +82,10 @@
 <style>
     @keyframes spin-slow {
         0% { transform: rotate(0deg); }
-        100% { transform: rotate(180deg); }
+        100% { transform: rotate(360deg); }
     }
     .animate-spin-slow {
-        animation: spin-slow 4s linear infinite;
+        animation: spin-slow 2s linear infinite;
     }
 </style>
 {% endblock %}
