@@ -20,47 +20,58 @@
         </div>
 
         <div class="text-center mb-6">
-            <h3 class="text-2xl font-semibold text-blue-900">John Doe</h3>
-            <p class="text-gray-600">johndoe@example.com</p>
+            <h3 class="text-2xl font-semibold text-blue-900">{{ username }}</h3>
+            <p class="text-gray-600">{{ email }}</p>
         </div>
 
-        <div class="flex justify-between mb-4">
-            <div>
-                <h4 class="text-lg font-semibold text-blue-900">Total Investments</h4>
-                <p class="text-gray-700">$10,000</p>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="p-4 bg-blue-50 rounded-lg shadow">
+                <h4 class="text-lg font-semibold text-blue-900">Total Stock Analysis Reports</h4>
+                <p class="text-gray-700">{{ reports_generated }}</p>
+                {% if reports_generated_date %}
+                <p class="text-gray-600">Last Analysis Report: {{ reports_generated_date|date:"F d, Y" }}</p>
+                {% endif %}
             </div>
-            <div>
-                <h4 class="text-lg font-semibold text-blue-900">Portfolio Performance</h4>
-                <p class="text-gray-700">+5% (Last 30 days)</p>
+            <div class="p-4 bg-blue-50 rounded-lg shadow">
+                <h4 class="text-lg font-semibold text-blue-900">Total Investment Reports</h4>
+                <p class="text-gray-700">{{ investment_reports }}</p>
+                {% if investment_reports_date %}
+                <p class="text-gray-600">Last Investment Report: {{ investment_reports_date|date:"F d, Y" }}</p>
+                {% endif %}
             </div>
         </div>
 
-        <!-- Recent Activities Section -->
-        <div>
-            <h4 class="text-xl font-semibold text-blue-900 mb-4">Recent Activities</h4>
-            <ul class="space-y-4">
-                <li class="flex justify-between p-4 bg-gray-100 rounded-lg shadow">
-                    <div class="flex items-center">
-                        <i class="fas fa-chart-line text-blue-600 mr-3"></i>
-                        <span>Analyzed Tesla stock</span>
+        <!-- Past Reports Section -->
+        <div class="mb-6">
+            <h4 class="text-xl font-semibold text-blue-900 mb-4">Past Stock Analysis Reports</h4>
+            {% for report in analysis_report %}
+                <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow">
+                    <h5 class="text-lg font-semibold text-blue-700">Report from {{ report.created_at|date:"F d, Y" }}</h5>
+                    <div class="max-h-64 overflow-y-auto p-3 border border-gray-300 bg-white rounded-lg">
+                        {% autoescape off %}
+                            {{ report.analysis_report }}
+                        {% endautoescape %}
                     </div>
-                    <span class="text-gray-600">Jan 29, 2025</span>
-                </li>
-                <li class="flex justify-between p-4 bg-gray-100 rounded-lg shadow">
-                    <div class="flex items-center">
-                        <i class="fas fa-dollar-sign text-green-600 mr-3"></i>
-                        <span>Invested in Apple</span>
+                </div>
+            {% empty %}
+                <p class="text-gray-600">No analysis reports available.</p>
+            {% endfor %}
+        </div>
+
+        <div class="mb-6">
+            <h4 class="text-xl font-semibold text-blue-900 mb-4">Past Investment Reports</h4>
+            {% for report in investment_report %}
+                <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow">
+                    <h5 class="text-lg font-semibold text-blue-700">Report from {{ report.created_at|date:"F d, Y" }}</h5>
+                    <div class="max-h-64 overflow-y-auto p-3 border border-gray-300 bg-white rounded-lg">
+                        {% autoescape off %}
+                            {{ report.investment_report }}
+                        {% endautoescape %}
                     </div>
-                    <span class="text-gray-600">Jan 28, 2025</span>
-                </li>
-                <li class="flex justify-between p-4 bg-gray-100 rounded-lg shadow">
-                    <div class="flex items-center">
-                        <i class="fas fa-search text-gray-600 mr-3"></i>
-                        <span>Searched for Investment Strategies</span>
-                    </div>
-                    <span class="text-gray-600">Jan 27, 2025</span>
-                </li>
-            </ul>
+                </div>
+            {% empty %}
+                <p class="text-gray-600">No investment reports available.</p>
+            {% endfor %}
         </div>
     </div>
 </section>

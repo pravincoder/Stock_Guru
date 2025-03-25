@@ -46,9 +46,6 @@ class Stock_bot_agents:
             verbose=True,
             llm=llm,
             max_rpm=19,
-            max_retry_limit=2,
-            allow_delegation=True,
-            max_execution_time=180,
         )
 
     def investment_analysis(self, stock_symbol):
@@ -69,7 +66,4 @@ class Stock_bot_agents:
             verbose=True,
             llm=llm,
             max_rpm=19,
-            max_retry_limit=1,
-            allow_delegation=True,
-            max_execution_time=180,
         )

@@ -115,7 +115,8 @@ class Stock_bot:
             </div>
         </body>
         </html>
-        Note :- You should not include any disclaimers or warnings in the report.
+    
+    Note :- You should not include any disclaimers or warnings in the report.
 """
             ),
             expected_output=dedent(
