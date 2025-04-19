@@ -1,6 +1,6 @@
 import json
 import yfinance as yf
-from crewai_tools import tool
+from crewai.tools import tool
 
 
 class YFinanceTools:
@@ -161,10 +161,10 @@ class YFinanceTools:
 
     def tools():
         return [
-            #YFinanceTools().get_company_info,
-            #YFinanceTools().get_historical_stock_prices,
+            YFinanceTools().get_company_info,
+            YFinanceTools().get_historical_stock_prices,
             YFinanceTools().get_stock_fundamentals,
-            #YFinanceTools().get_income_statements,
+            YFinanceTools().get_income_statements,
             YFinanceTools().get_analyst_recommendations,
             YFinanceTools().get_company_news,
             #YFinanceTools().get_technical_indicators,

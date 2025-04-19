@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 def home(request):
     return render(request, "home.html")
@@ -8,16 +9,26 @@ def profile(request):
     user = User.objects.get(username=request.user.username)
     email = user.email
 
-    if request.method == "POST":
-        api_key = request.Post.get("api_key")
-        if api_key:
-            user.profile.API_key = api_key
-            user.profile.save()
+    # Ensure user has a profile
+    try:
+        profile = user.profile
+    except User.profile.RelatedObjectDoesNotExist:
+        # Create profile if it doesn't exist
+        from StockAnalysis.models import UserProfile
+        profile = UserProfile.objects.create(user=user)
 
-        profile_picture = request.files.get("profile_picture")
+    if request.method == "POST":
+        groq_api_key = request.POST.get("groq_api_key")
+        if groq_api_key:
+            user.profile.API_key = groq_api_key
+            user.profile.save()
+            messages.success(request, "Groq API key updated successfully!")
+
+        profile_picture = request.FILES.get("profile_picture")
         if profile_picture:
             user.profile.profile_picture = profile_picture
             user.profile.save()
+            messages.success(request, "Profile picture updated successfully!")
 
     # Get current user details like username, email, reports generated (analysis and investment reports), and their dates.
     analysis_count = user.stockanalysis_set.count()
@@ -41,6 +52,7 @@ def profile(request):
         "investment_reports_date": last_investment_date,
         "analysis_report": analysis_reports,
         "investment_report": investment_reports_all,
+        "groq_api_key": user.profile.API_key,
     }
     return render(request, "profile.html", data)
 

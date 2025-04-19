@@ -34,9 +34,9 @@ class Stock_bot_agents:
         return Agent(
             role="Stock Analysis",
             goal="To create a report on stock analysis.",
-            tools=YFinanceTools.tools(),
+            tools=YFinanceTools().tools(),
             backstory=dedent(
-                """
+                f"""
             As a stock analyst you are working for a Goldman Sachs company.
             you have been assigned to create a report of the analysis of the {stock_symbol} stock.
             You must try to keep a professional tone and should meet the given Requirements.
@@ -53,9 +53,9 @@ class Stock_bot_agents:
         return Agent(
             role="Stock Report",
             goal="To create a report of the Investment analysis.",
-            tools=YFinanceTools.tools(),
+            tools=YFinanceTools().tools(),
             backstory=dedent(
-                """
+                f"""
             As a Investment analyst you are working for a Goldman Sachs company.
             you have been assigned to create a report of the Investment in the {stock_symbol} stock.
             You must try to keep a professional tone and should meet the given Requirements.

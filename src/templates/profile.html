@@ -40,11 +40,50 @@
                 {% endif %}
             </div>
         </div>
-
-        <!-- Past Reports Section -->
+        
+        <!-- API Key Management Section -->
+        <div class="mb-8">
+            <h4 class="text-xl font-semibold text-blue-900 mb-5">Groq API Key</h4>
+            <div class="p-4 bg-blue-50 rounded-lg shadow">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="mb-4 p-3 {% if message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} rounded-lg">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="groq_api_key" class="block text-sm font-medium text-gray-700 mb-2">Your Groq API Key</label>
+                        <div class="flex">
+                            <input 
+                                type="password" 
+                                id="groq_api_key" 
+                                name="groq_api_key" 
+                                value="{{ groq_api_key }}" 
+                                placeholder="Enter your Groq API key" 
+                                class="flex-grow p-2 border border-gray-300 rounded-l-md focus:ring-blue-500 focus:border-blue-500"
+                            >
+                            <button type="button" id="toggle-api-key" class="px-3 py-2 bg-gray-200 text-gray-700 border border-l-0 border-gray-300 rounded-r-md hover:bg-gray-300">
+                                Show
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">Your API key is stored securely and used to run AI agents for stock analysis</p>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Save API Key
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Past Reports Section - Limited to 5 recent reports -->
         <div class="mb-6">
-            <h4 class="text-xl font-semibold text-blue-900 mb-4">Past Stock Analysis Reports</h4>
-            {% for report in analysis_report %}
+            <h4 class="text-xl font-semibold text-blue-900 mb-5">Past Stock Analysis Reports</h4>
+            {% for report in analysis_report|slice:":5" %}
                 <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow">
                     <h5 class="text-lg font-semibold text-blue-700">Report from {{ report.created_at|date:"F d, Y" }}</h5>
                     <div class="max-h-64 overflow-y-auto p-3 border border-gray-300 bg-white rounded-lg">
@@ -59,8 +98,8 @@
         </div>
 
         <div class="mb-6">
-            <h4 class="text-xl font-semibold text-blue-900 mb-4">Past Investment Reports</h4>
-            {% for report in investment_report %}
+            <h4 class="text-xl font-semibold text-blue-900 mb-5">Past Investment Reports</h4>
+            {% for report in investment_report|slice:":5" %}
                 <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow">
                     <h5 class="text-lg font-semibold text-blue-700">Report from {{ report.created_at|date:"F d, Y" }}</h5>
                     <div class="max-h-64 overflow-y-auto p-3 border border-gray-300 bg-white rounded-lg">
@@ -74,7 +113,27 @@
             {% endfor %}
         </div>
     </div>
-</section>
+</div>
 
 {% include 'footer.html' %}
 {% endblock %}
+
+<!-- JavaScript to toggle API key visibility -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const apiKeyInput = document.getElementById('groq_api_key');
+        const toggleButton = document.getElementById('toggle-api-key');
+        
+        if (toggleButton && apiKeyInput) {
+            toggleButton.addEventListener('click', function() {
+                if (apiKeyInput.type === 'password') {
+                    apiKeyInput.type = 'text';
+                    toggleButton.textContent = 'Hide';
+                } else {
+                    apiKeyInput.type = 'password';
+                    toggleButton.textContent = 'Show';
+                }
+            });
+        }
+    });
+</script>
