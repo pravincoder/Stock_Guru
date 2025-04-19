@@ -36,7 +36,9 @@ SECRET_KEY = config('DJANGO_SECRET')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1'
+    '127.0.0.1',
+    'railway.app',
+    'stockguru-production.up.railway.app',
 ]
 
 
