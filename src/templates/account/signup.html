@@ -1,22 +1,63 @@
 {% extends "account/signup.html" %}
 {% load i18n %}
-{% load allauth_ui %}
 {% load widget_tweaks %}
+{% load static %}
+
 {% block content %}
     {% trans "Sign Up" as heading %}
     {% include 'navbar.html' %}
-    {% blocktranslate asvar subheading %}Already have an account? Then please <a href="{{ login_url }}" class="link">sign in</a>.{% endblocktranslate %}
-    {% #container heading=heading subheading=subheading  %}
-    {% if not SOCIALACCOUNT_ONLY %}
-        {% url 'account_signup' as action_url %}
-        {% #form form=form url=action_url button_text=heading %}
-        {{ redirect_field }}
-        {% csrf_token %}
-        {% /form %}
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
-    {% /container %}
+
+    {% blocktranslate asvar subheading %}
+        Already have an account? Then please 
+        <a href="{{ login_url }}" class="link">sign in</a>.
+    {% endblocktranslate %}
+
+    <div class="container mx-auto max-w-md p-6 bg-white shadow rounded">
+        <h2 class="text-2xl font-bold mb-2">{{ heading }}</h2>
+        <p class="text-sm text-gray-600 mb-4">{{ subheading|safe }}</p>
+
+        {% if not SOCIALACCOUNT_ONLY %}
+            <form method="post" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                {{ redirect_field }}
+
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1" for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+                        {% render_field field class="input input-bordered w-full" %}
+                        {% if field.errors %}
+                            <p class="text-red-500 text-xs mt-1">{{ field.errors|striptags }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {# Example of a "Remember Me" type choice - Radio options #}
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Stay Signed In:</label>
+                    <div class="flex flex-col gap-2">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="remember_me_option" value="stay_signed_in" class="radio radio-accent" checked>
+                            <span class="ml-2 text-sm">Stay signed in on this device</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="remember_me_option" value="sign_out_session" class="radio radio-accent">
+                            <span class="ml-2 text-sm">Sign out after session ends</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full mt-2">{{ heading }}</button>
+            </form>
+        {% endif %}
+
+        {% if SOCIALACCOUNT_ENABLED %}
+            <div class="mt-6">
+                {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
+
 {% include 'footer.html' %}

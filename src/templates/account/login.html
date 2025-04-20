@@ -1,45 +1,65 @@
 {% extends "account/login.html" %}
 {% load i18n %}
-{% load allauth_ui %}
 {% load widget_tweaks %}
 {% load static %}
-{% block head_title}
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
+
 {% block content %}
-    
     {% trans "Sign In" as heading %}
     {% include 'navbar.html' %}
-    {% #container heading=heading  %}
-    {% if not SOCIALACCOUNT_ONLY %}
-    
-        <div class="py-3">
-            {% blocktranslate %}If you have not created an account yet, then please 
-            <a class="link" href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}
-        </div>
-        {% url 'account_login' as action_url %}
-        {% #form form=form url=action_url button_text=heading %}
-        {% if form.remember %}
-        <div class="items-start my-2 form-control">
-            <label class="cursor-pointer label">
-                {% render_field form.remember class="checkbox checkbox-accent" %}
-                <span class="ml-2 label-text">{% trans "Remember me" %}</span>
-            </label>
-        </div>
+
+    <div class="container mx-auto max-w-md p-6 bg-white shadow rounded">
+        <h2 class="text-2xl font-bold mb-4">{{ heading }}</h2>
+
+        {% if not SOCIALACCOUNT_ONLY %}
+            <div class="py-3">
+                {% blocktranslate %}If you have not created an account yet, then please 
+                <a class="link" href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}
+            </div>
+
+            <form method="post" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                {{ redirect_field }}
+
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% render_field field class="input input-bordered w-full" %}
+                        {% if field.errors %}
+                            <p class="text-red-500 text-xs mt-1">{{ field.errors|striptags }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% if form.remember %}
+                    <div class="form-control my-2">
+                        <label class="cursor-pointer label">
+                            {% render_field form.remember class="checkbox checkbox-accent" %}
+                            <span class="ml-2 label-text">{% trans "Remember me" %}</span>
+                        </label>
+                    </div>
+                {% endif %}
+
+                <div class="flex justify-between items-center">
+                    <a class="link text-sm" href="{% url 'account_reset_password' %}">{% trans "Forgot password?" %}</a>
+                    <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+                </div>
+            </form>
         {% endif %}
-        {{ redirect_field }}
-        {% csrf_token %}
-        <div class="flex flex-col">
-            <a class="link self-end text-sm"
-               href="{% url "account_reset_password" %}">{% trans "Forgot password?" %}</a>
-        </div>
-        {% /form %}
-    {% endif %}
-    {% if LOGIN_BY_CODE_ENABLED %}
-        <div class="divider divider-neutral"></div>
-        <a href="{{ request_login_code_url }}" class="btn btn-neutral">{% trans "Mail me a sign-in code" %}</a>
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
-    {% /container %}
+
+        {% if LOGIN_BY_CODE_ENABLED %}
+            <div class="divider divider-neutral mt-6"></div>
+            <a href="{{ request_login_code_url }}" class="btn btn-neutral mt-2 w-full">{% trans "Mail me a sign-in code" %}</a>
+        {% endif %}
+
+        {% if SOCIALACCOUNT_ENABLED %}
+            <div class="mt-6">
+                {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock content %}
+
 {% include 'footer.html' %}
