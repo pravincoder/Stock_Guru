@@ -2,6 +2,7 @@
 
 Stock Guru AI is an advanced stock market analysis and investment platform powered by AI. It provides detailed stock analysis reports, investment insights, and interactive charts to help users make informed decisions. The platform features a Django backend with Jinja templating for the frontend and an admin dashboard to manage stock requests and reports.
 
+***Note:- Only some Version of python are supported like 3.11 and 3.10, anything else might raise a compatibilty issue with crewai or yfinance***
 ## Features
 
 ### User Features:
