@@ -106,12 +106,3 @@ def generate_investment_reports(stock_symbol):
         logger.error(f"Failed to generate investment report for {stock_symbol}: {e}")
         return None
 
-# Test the crew
-if __name__ == "__main__":
-    load_dotenv()
-    stock_name = 'Zomato'
-    stock_symbol = get_stock_symbol(stock_name)
-    stock_analysis_report = generate_analysis_reports(stock_symbol)
-    stock_investment_report = generate_investment_reports(stock_symbol)
-    print(stock_analysis_report)
-    print(stock_investment_report)

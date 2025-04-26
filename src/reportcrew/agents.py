@@ -1,4 +1,4 @@
-from langchain_openai import ChatOpenAI
+
 from langchain_groq import ChatGroq
 from textwrap import dedent
 import os
@@ -22,7 +22,7 @@ llm = ChatOpenAI(
 """
 
 llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
+    model="groq/compound-beta-mini",
     # Add Your API Key from (https://console.groq.com/keys)
     api_key=os.environ['GROQ_API_KEY'],
 )
@@ -34,7 +34,7 @@ class Stock_bot_agents:
         return Agent(
             role="Stock Analysis",
             goal="To create a report on stock analysis.",
-            tools=YFinanceTools().tools(),
+            tools=YFinanceTools.tools(),
             backstory=dedent(
                 f"""
             As a stock analyst you are working for a Goldman Sachs company.
@@ -46,6 +46,7 @@ class Stock_bot_agents:
             verbose=True,
             llm=llm,
             max_rpm=19,
+            
         )
 
     def investment_analysis(self, stock_symbol):
@@ -53,7 +54,7 @@ class Stock_bot_agents:
         return Agent(
             role="Stock Report",
             goal="To create a report of the Investment analysis.",
-            tools=YFinanceTools().tools(),
+            tools=YFinanceTools.tools(),
             backstory=dedent(
                 f"""
             As a Investment analyst you are working for a Goldman Sachs company.
