@@ -51,7 +51,6 @@ Stock Guru AI is an advanced stock market analysis and investment platform power
    ```sh
    SECRET_KEY=your_secret_key
    DATABASE_URL=your_neon_database_url
-   YAHOO_API_KEY=your_yahoo_finance_key
    DJANGO_DEBUG=True
    EMAIL_HOST=smtp.gmail.com
    EMAIL_USE_TLS=True
